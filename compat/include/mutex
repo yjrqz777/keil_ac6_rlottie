@@ -1,6 +1,15 @@
 #ifndef AC6_RLOTTIE_COMPAT_MUTEX
 #define AC6_RLOTTIE_COMPAT_MUTEX
 
+/*
+ * Keil AC6 裸机 libc++ 没有启用 std::mutex 等线程同步类型。
+ *
+ * rlottie 在关闭线程后仍有少量 std::mutex / std::lock_guard /
+ * std::unique_lock 引用。本文件提供 no-op 版本，用于消除编译错误。
+ *
+ * 注意：这里没有真正互斥能力，只能用于当前单线程渲染构建。
+ */
+
 namespace std {
 
 struct try_to_lock_t {
@@ -11,6 +20,7 @@ static constexpr try_to_lock_t try_to_lock{};
 
 class mutex {
 public:
+    /* 单线程移植中没有并发竞争，lock/unlock 均为空操作。 */
     void lock() {}
     bool try_lock() { return true; }
     void unlock() {}
@@ -19,6 +29,7 @@ public:
 template <typename Mutex>
 class lock_guard {
 public:
+    /* 保留 RAII 形态，让上游代码结构不用修改。 */
     explicit lock_guard(Mutex &m) : mutex_(m) { mutex_.lock(); }
     ~lock_guard() { mutex_.unlock(); }
 
@@ -32,6 +43,7 @@ private:
 template <typename Mutex>
 class unique_lock {
 public:
+    /* 支持 rlottie 残留代码里常见的 unique_lock 构造和 owns_lock 判断。 */
     explicit unique_lock(Mutex &m) : mutex_(&m), owns_(true) { mutex_->lock(); }
     unique_lock(Mutex &m, try_to_lock_t) : mutex_(&m), owns_(m.try_lock()) {}
     ~unique_lock()

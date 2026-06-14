@@ -1,6 +1,16 @@
 #ifndef AC6_RLOTTIE_COMPAT_FUTURE
 #define AC6_RLOTTIE_COMPAT_FUTURE
 
+/*
+ * Keil AC6 裸机 libc++ 默认没有线程支持，直接 include <future> 会报错。
+ *
+ * rlottie 在关闭 LOTTIE_THREAD 后，部分同步路径仍残留 std::future /
+ * std::promise 类型声明。本文件提供最小占位实现，让这些源码能通过编译。
+ *
+ * 注意：这不是完整的 C++ future 实现，没有线程调度、等待、异常传递等能力。
+ * 它只适用于当前 rlottie 单线程同步渲染移植。
+ */
+
 #include <memory>
 #include <utility>
 
@@ -12,6 +22,7 @@ class future;
 template <typename T>
 class promise {
 public:
+    /* promise 和 future 共用一个简单 state，用于同步路径里的 set/get。 */
     promise() : state_(std::make_shared<state>()) {}
     promise(promise &&) = default;
     promise &operator=(promise &&) = default;
@@ -23,6 +34,7 @@ public:
 
     void set_value(const T &value)
     {
+        /* 当前移植不支持等待线程，只记录值和 ready 标志。 */
         state_->value = value;
         state_->ready = true;
     }
@@ -58,6 +70,7 @@ public:
 
     T get()
     {
+        /* 单线程路径下直接取值；没有阻塞等待语义。 */
         T value{};
         if (state_) {
             value = std::move(state_->value);
