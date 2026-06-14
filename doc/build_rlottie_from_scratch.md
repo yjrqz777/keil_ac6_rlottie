@@ -253,6 +253,58 @@ External/keil_ac6_rlottie/install/include/rlottiecommon.h
 
 如果 `rlottie.lib` 不存在，说明 build 或 install 阶段失败，需要回看命令行中的第一个 error。
 
+### `install/include` 头文件的来历
+
+`install/include` 下的头文件不是本移植包手写的，也不是凭空生成的。它们来自 rlottie 上游源码的公开 API 目录：
+
+```text
+External/keil_ac6_rlottie/rlottie-0.2/inc/
+  rlottie.h
+  rlottie_capi.h
+  rlottiecommon.h
+```
+
+上游 `rlottie-0.2/CMakeLists.txt` 里有安装规则：
+
+```cmake
+install(FILES
+        inc/rlottie.h
+        inc/rlottie_capi.h
+        inc/rlottiecommon.h
+        DESTINATION include)
+```
+
+所以执行：
+
+```powershell
+cmake --install build
+```
+
+之后，CMake 会把这三个公开头文件复制到：
+
+```text
+External/keil_ac6_rlottie/install/include/
+```
+
+这样 Keil 工程只需要引用稳定的安装目录：
+
+```text
+../External/keil_ac6_rlottie/install/include
+```
+
+而不用直接依赖上游源码内部路径：
+
+```text
+../External/keil_ac6_rlottie/rlottie-0.2/inc
+```
+
+简单说：
+
+```text
+rlottie-0.2/inc/      是上游源码里的原始公开头文件
+install/include/      是 cmake install 后给 Keil 工程使用的头文件副本
+```
+
 ## 10. 接入 Keil 工程
 
 Keil 工程需要配置：
