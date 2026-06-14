@@ -21,7 +21,7 @@ External/keil_ac6_rlottie/
   compat/include/                 # AC6 裸机 libc++ 兼容头
   keil/keil_ac6_retarget.c        # Keil/AC6 no-semihosting + RTT retarget
   build/                          # CMake 构建目录，自动生成
-  install/                        # 安装目录，Keil 工程引用这里
+  install/                        # 安装目录，Keil 工程引用这里  
 ```
 
 ## 前置条件
