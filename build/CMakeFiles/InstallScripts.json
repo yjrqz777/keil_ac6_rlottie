@@ -1,0 +1,17 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/inc/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/src/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/src/vector/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/src/vector/freetype/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/src/vector/pixman/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/src/vector/stb/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/src/lottie/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/src/binding/cmake_install.cmake",
+		"D:/document/code/stm32/H7/h7rec/External/keil_ac6_rlottie/build/rlottie-0.2/src/binding/c/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
